@@ -29,7 +29,7 @@ docker run -d \
   -e OPERATOR_PRIVATE_KEY=0x456... \
   -e RPC_URL=https://your-rpc-endpoint \
   -e PROTOCOL_ADDRESS=0x2dd0F2DfFeDB4B3CA898046C4f24d99EDD2C8416 \
-  kapnode
+  reg.nodeops.xyz/public/kap:1.0.0
 ```
 
 ### Using Docker Compose
@@ -41,7 +41,7 @@ version: '3.8'
 
 services:
   node-software:
-    image: kapnode
+    image: push reg.nodeops.xyz/public/kap:1.0.0
     environment:
       - OPERATOR_PRIVATE_KEY=0x456...
       - RPC_URL=https://your-rpc-endpoint
