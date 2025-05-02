@@ -4,12 +4,11 @@ This is a node software implementation for the Kap protocol, designed to monitor
 
 ## Prerequisites
 
-- Docker and Docker Compose installed on your system
-- Environment variables configured (see Environment Variables section)
+- Docker installed on your system
 
 ## Environment Variables
 
-Create a `.env` file in the project root with the following variables:
+The following environment variables are required to run the node. You can pass them directly to the Docker run command:
 
 ```bash
 # Required
@@ -18,45 +17,41 @@ RPC_URL=https://your-rpc-endpoint  # Ethereum RPC endpoint
 PROTOCOL_ADDRESS=0x2dd0F2DfFeDB4B3CA898046C4f24d99EDD2C8416  # Protocol contract address
 ```
 
-You can copy the example environment file:
-```bash
-cp env.example .env
-```
-
-Then edit the `.env` file to add your specific values.
-
 ## Running with Docker
-
-### Using Docker Compose (Recommended)
-
-1. Build and start the container:
-```bash
-docker-compose up -d
-```
-
-2. View logs:
-```bash
-docker-compose logs -f
-```
 
 ### Using Docker Directly
 
-1. Build the Docker image:
-```bash
-docker build -t kapnode .
-```
+Run the container with environment variables:
 
-2. Run the container:
 ```bash
 docker run -d \
   --name kapnode \
-  --env-file .env \
+  -e OPERATOR_PRIVATE_KEY=0x456... \
+  -e RPC_URL=https://your-rpc-endpoint \
+  -e PROTOCOL_ADDRESS=0x2dd0F2DfFeDB4B3CA898046C4f24d99EDD2C8416 \
   kapnode
 ```
 
-3. View logs:
+### Using Docker Compose
+
+Create a `docker-compose.yml` file:
+
+```yaml
+version: '3.8'
+
+services:
+  node-software:
+    image: kapnode
+    environment:
+      - OPERATOR_PRIVATE_KEY=0x456...
+      - RPC_URL=https://your-rpc-endpoint
+      - PROTOCOL_ADDRESS=0x2dd0F2DfFeDB4B3CA898046C4f24d99EDD2C8416
+    restart: unless-stopped
+```
+
+Then run:
 ```bash
-docker logs -f kapnode
+docker-compose up -d
 ```
 
 ## Monitoring
@@ -70,8 +65,8 @@ The node will automatically:
 ## Troubleshooting
 
 If you encounter issues:
-1. Check the logs using `docker-compose logs` or `docker logs kapnode`
-2. Verify all environment variables are correctly set in your `.env` file
+1. Check the logs using `docker logs kapnode` or `docker-compose logs`
+2. Verify all environment variables are correctly set
 3. Ensure the RPC endpoint is accessible
 4. Confirm the node has sufficient funds for gas fees
 
@@ -82,16 +77,3 @@ If you encounter issues:
 - Retry mechanism for failed transactions
 - Configurable polling intervals
 - Robust error handling and logging
-
-## Project Structure
-
-- `main.go` - Application entry point
-- `node/` - Node implementation
-- `env/` - Environment configuration
-- `utils/` - Utility functions
-- `contracts/` - Smart contract bindings
-- `logger/` - Logging implementation
-
-## License
-
-[Add your license information here] 
