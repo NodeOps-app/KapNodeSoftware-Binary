@@ -41,7 +41,7 @@ version: '3.8'
 
 services:
   node-software:
-    image: push reg.nodeops.xyz/public/kap:1.0.0
+    image: reg.nodeops.xyz/public/kap:1.0.0
     environment:
       - OPERATOR_PRIVATE_KEY=0x456...
       - RPC_URL=https://your-rpc-endpoint
